@@ -1,13 +1,11 @@
 import express from 'express';
-import { getAllMovieDetails, getMovieByTitle } from '../controllers/movie';
+import * as MovieController from '../controllers/movie';
 
 const router = express.Router();
 
-router.get("/movie/search", getMovieByTitle);
+router.get("/movie/search", MovieController.getMovieByTitle);
 
-router.get("/movie/:id", getAllMovieDetails);
-
-
+router.get("/movie", MovieController.getAllMovies);
 
 
 router.get('/', (req, res) => {

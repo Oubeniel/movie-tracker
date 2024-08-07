@@ -1,9 +1,9 @@
-import {Movie} from "@/models/movie";
+import {Movie, MoviePage} from "@/models/movie";
 import api from "@/network/axiosInstance";
 
 
-export async function getAllMovies(_id: string) {
-    const response = await api.get<Movie>("/movie/" + _id);
+export async function getAllMovies(page: number = 1) {
+    const response = await api.get<MoviePage>("/movie?page=" + page);
     return response.data;
 }
 
@@ -17,7 +17,6 @@ export async function postTestMovieTitle() {
     const response = await api.post<Movie>("/movie", { title });
     return response.data;
 }
-
 
 export async function searchMovie(title: string) {
     const response = await api.get<[]>("/movie/search", { params: { title } });

@@ -1,4 +1,5 @@
 import { Container } from "@/components/bootstrap";
+import NavigationBar from "@/components/NavigationBar";
 import "@/styles/globals.scss";
 import "@/styles/utils.css";
 import type { Metadata } from "next";
@@ -20,6 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <NavigationBar />
         <main>
           <Container className='py-4'>
             {children}

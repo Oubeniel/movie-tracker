@@ -9,7 +9,7 @@ interface LoadingButtonProps {
 const LoadingButton = ({ isLoading, children, ...props }: LoadingButtonProps & ButtonProps) => {
     return (
         <div>
-            <Button {...props}>
+            <Button {...props} className='mb-3'>
                 {isLoading &&
                 <>
                     <Spinner

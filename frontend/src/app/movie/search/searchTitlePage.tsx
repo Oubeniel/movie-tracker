@@ -1,25 +1,23 @@
 "use client"
 import FormInputField from "@/components/form/FormInputField";
 import LoadingButton from "@/components/LoadingButton";
-import { Movie } from "@/models/movie";
 import * as MovieApi from "@/network/api/movies";
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 import { useForm } from "react-hook-form"
+import MovieCardGrid from "@/components/MovieCardGrid";
 
 interface searchMovieFormData {
     title: string
 }
 
 const MovieInfoSection = () => {
-    const [titles, setTitles] = useState<[]>();
+    const [movies, setMovies] = useState<[]>();
 
     async function onSubmit({ title }: searchMovieFormData) {
-        console.log("This triggered with title: " + title);
-
         try {
             const results = await MovieApi.searchMovie(title);
-            setTitles(results);
+            setMovies(results);
 
         } catch (error) {
             console.error(error);
@@ -32,19 +30,14 @@ const MovieInfoSection = () => {
         <div>
             <Form onSubmit={handleSubmit(onSubmit)}>
                 <FormInputField
-                    label="Movie Title"
                     register={register("title", { required: true })}
                     placeholder="Search for a movie..."
                     maxLength={100} />
                 <LoadingButton type='submit' isLoading={isSubmitting}>Search</LoadingButton>
             </Form>
-                {titles?.map(item => (
-                    <div key={item._id}>
-                        <h3>{item.title}</h3>
-                        <p>{item.year}</p>
-                        <p>{item.plot}</p>
-                    </div>
-                ))}
+            <div>
+                {movies && movies.length > 0 && <MovieCardGrid movies={movies}/>}
+            </div>
         </div>
     )
 }

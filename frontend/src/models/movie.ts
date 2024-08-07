@@ -8,4 +8,21 @@ export interface Movie {
     genres: [string],
     plot: string,
     poster: string
+    imdb: {
+        rating: number
+    },
+    tomatoes: {
+        critic: {
+            rating: number
+        },
+        viewer: {
+            rating: number
+        }
+    }
+}
+
+export interface MoviePage {
+    movies: Movie[],
+    page: number,
+    totalPages: number
 }
