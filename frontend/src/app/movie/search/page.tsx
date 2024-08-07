@@ -1,11 +1,16 @@
 import MovieInfoSection from "./searchTitlePage";
-import styles from "./searchPage.module.css";
 
-const SearchPage = () => {
+interface SearchPageProps {
+  searchParams: {
+    page?: number,
+    search?: string
+  }
+}
+
+const SearchPage = ({searchParams}: SearchPageProps) => {
     return (
       <div>
-          <h1 className={styles.searchTitle}>Search for movies</h1>
-          <MovieInfoSection />
+          <MovieInfoSection page={searchParams.page} search={searchParams.search}/>
       </div>
     )
   }

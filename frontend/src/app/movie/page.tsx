@@ -2,10 +2,14 @@ import MovieCardGrid from "@/components/MovieCardGrid";
 import * as MovieApi from '@/network/api/movies';
 import { redirect } from "next/navigation";
 import { stringify } from "querystring";
-import MovieListPaginationBar from "./MovieListPaginationBar";
+import MovieListPaginationBar from "@/components/MovieListPaginationBar";
+import MovieSearchBar from "@/components/MovieSearchBar";
 
 interface MoviePageProps {
-    searchParams: { page?: string }
+    searchParams: { 
+        page?: string,
+        search?: string
+     }
   }
 
 const MainMoviePage = async ({searchParams}: MoviePageProps) => {
@@ -23,6 +27,7 @@ const MainMoviePage = async ({searchParams}: MoviePageProps) => {
       }
     return (
         <div>
+            <MovieSearchBar page={currentPage}/>
             {movies.length > 0 && <MovieCardGrid movies={movies}/>}
             {movies.length > 0 && 
             <MovieListPaginationBar 

@@ -7,6 +7,13 @@ export async function getAllMovies(page: number = 1) {
     return response.data;
 }
 
+export async function getAllMoviesWithSearch(searchString?: string, page?: number) {
+    console.log("api called: " + `/movie?page=${page}&search=${searchString}`);
+    const response = await api.get<MoviePage>(`/movie?page=${page}&search=${searchString}`);
+    console.log(response.data);
+    return response.data;
+}
+
 export async function getMovies(title: string) {
     const response = await api.get<Movie>("/movie/titles", { params: { title } });
     return response.data;

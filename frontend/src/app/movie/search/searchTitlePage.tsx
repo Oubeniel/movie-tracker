@@ -1,43 +1,22 @@
-"use client"
-import FormInputField from "@/components/form/FormInputField";
-import LoadingButton from "@/components/LoadingButton";
 import * as MovieApi from "@/network/api/movies";
-import React, { useState } from "react";
-import { Form } from "react-bootstrap";
-import { useForm } from "react-hook-form"
 import MovieCardGrid from "@/components/MovieCardGrid";
+import MovieListPaginationBar from "@/components/MovieListPaginationBar";
 
-interface searchMovieFormData {
-    title: string
+interface MovieInfoSectionProps {
+    page?: number,
+    search?: string
 }
 
-const MovieInfoSection = () => {
-    const [movies, setMovies] = useState<[]>();
-
-    async function onSubmit({ title }: searchMovieFormData) {
-        try {
-            const results = await MovieApi.searchMovie(title);
-            setMovies(results);
-
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
-    const { register, handleSubmit, formState: { isSubmitting } } = useForm<searchMovieFormData>();
-
+const MovieInfoSection = async ({ page, search }: MovieInfoSectionProps) => {
+    const { movies, page: currentPage, totalPages } = await MovieApi.getAllMoviesWithSearch(search, page);
     return (
         <div>
-            <Form onSubmit={handleSubmit(onSubmit)}>
-                <FormInputField
-                    register={register("title", { required: true })}
-                    placeholder="Search for a movie..."
-                    maxLength={100} />
-                <LoadingButton type='submit' isLoading={isSubmitting}>Search</LoadingButton>
-            </Form>
-            <div>
-                {movies && movies.length > 0 && <MovieCardGrid movies={movies}/>}
-            </div>
+            {movies.length > 0 && <MovieCardGrid movies={movies} />}
+            <MovieListPaginationBar 
+                currentPage={currentPage}
+                totalPages={totalPages}
+                search={search}
+            />
         </div>
     )
 }

@@ -8,7 +8,6 @@ interface MovieCardGridProps {
 }
 
 export default function MovieCardGrid({movies}: MovieCardGridProps) {
-    console.log("here starts the movie list" + movies);
     return(
         <Row xs={1} sm={2} lg={4} className="g-4">
             {movies.map((movie) => (
