@@ -8,6 +8,9 @@ const movieSchema = new Schema({
     imdbRating: { type: Number },
     tomatoesViewerRating: { type: Number },
     tomatoesCriticRating: { type: Number },
+    directors: [String],
+    genres: [String],
+    cast: [String]
 });
 
 type MovieItem = InferSchemaType<typeof movieSchema>;

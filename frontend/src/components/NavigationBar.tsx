@@ -26,7 +26,7 @@ const NavigationBar = () => {
                     <Navbar.Toggle aria-controls="main-navbar" />
                     <Navbar.Collapse id="main-navbar">
                         <Nav>
-                            <Nav.Link as={Link} href="/movie/titles" active={pathname === "/movie/titles"}>Movies</Nav.Link>
+                            <Nav.Link as={Link} href="/movie" active={pathname === "/movie"}>Movies</Nav.Link>
                             <Nav.Link as={Link} href="/movie/search" active={pathname === "/movie/search"}>Search for movies</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>

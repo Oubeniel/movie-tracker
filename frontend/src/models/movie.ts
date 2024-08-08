@@ -18,6 +18,11 @@ export interface Movie {
         viewer: {
             rating: number
         }
+    },
+    awards: {
+        wins: number,
+        nominations: number,
+        text: string
     }
 }
 

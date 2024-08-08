@@ -14,6 +14,7 @@ interface MoviePageProps {
 
 const MainMoviePage = async ({searchParams}: MoviePageProps) => {
     const page = parseInt(searchParams.page?.toString() ?? "1");
+    
     if (page < 1) {
         searchParams.page = "1";
         redirect("/movie?" + stringify(searchParams));
@@ -27,7 +28,7 @@ const MainMoviePage = async ({searchParams}: MoviePageProps) => {
       }
     return (
         <div>
-            <MovieSearchBar page={currentPage}/>
+            <MovieSearchBar/>
             {movies.length > 0 && <MovieCardGrid movies={movies}/>}
             {movies.length > 0 && 
             <MovieListPaginationBar 

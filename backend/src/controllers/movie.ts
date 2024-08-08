@@ -3,19 +3,35 @@ import MovieModel from "../models/movie";
 
 interface MovieItem {
     page: string,
-    search?: string
+    search?: string,
+    filter: string
 }
 
 export const getAllMovies: RequestHandler<unknown, unknown, unknown, MovieItem> = async (req, res) => {
     const page = parseInt(req.query.page ?? "1");
     const pageSize = 12;
     const regex = new RegExp(req.query.search as string, 'i');
-    const filter = req.query.search ? { title: regex } : {};    
+    let filter = {}
+    switch (req.query.filter) {
+        case "genres":
+            filter = req.query.search ? { genres: regex } : {}; 
+            break;
+        case "cast":
+            filter = req.query.search ? { cast: regex } : {};
+            break;
+        case "directors":
+            filter = req.query.search ? { directors: regex } : {};
+            break;
+        case "title":
+            filter = req.query.search ? { title: regex } : {};
+            break;
+    }
+      
     try {
         const getMoviesQuery = MovieModel
             .find(filter)
             .sort({title : 1}) // 1 to sort by title in ascending order (i.e., A-Z) -1 sort the other way around
-            .select('title year plot poster imdb tomatoes')
+            .select('title year plot poster imdb tomatoes genres cast directors awards')
             .skip((page - 1) * pageSize)
             .limit(pageSize)
             .exec();

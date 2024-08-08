@@ -8,6 +8,7 @@ import imdb from "@/images/imdb-logo.png"
 import critic_tomato from "@/images/tomato-logo.png"
 import viewer_tomato from "@/images/tomato-viewer-logo.png"
 import { useState } from "react";
+import MovieInfoToolTip from "./MovieInfoToolTip";
 
 interface MovieCardEntryProps {
     movie: Movie,
@@ -37,7 +38,7 @@ const MovieCardEntry = ({movie, className}: MovieCardEntryProps) => {
                     </Link>
                     <Card.Body>
                         <Card.Title>
-                            <Link href={`/movie/${movie._id}`}>{movie.title}</Link>
+                            <Link href={`/movie/${movie._id}`}><MovieInfoToolTip movie={movie}/></Link>
                         </Card.Title>
                         <div className="d-flex justify-content-between">
                         <Card.Text><Image 

@@ -1,28 +1,21 @@
 "use client"
-import FormInputField from "@/components/form/FormInputField";
-import LoadingButton from "@/components/LoadingButton";
-import * as MovieApi from "@/network/api/movies";
 import React, { useEffect, useState } from "react";
-import { Form } from "react-bootstrap";
-import { useForm } from "react-hook-form"
-import MovieCardGrid from "@/components/MovieCardGrid";
 import SearchInputField from "./SearchInputField";
 import { useRouter } from "next/navigation";
 
-interface searchMovieFormData {
-    page: number
-}
-
-const MovieSearchBar = ({page}: searchMovieFormData) => {
+const MovieSearchBar = () => {
 
     const [query, setQuery] = useState("");
 
+    const [filterType, setFilterType] = useState("title");
+
     const router = useRouter();
 
-
     useEffect(() => {
+        
+        
         const timeoutId = setTimeout(async () => {
-            if(query) router.push(`/movie/search?page=${page}&search=${query}`);
+            if(query) router.push(`/movie/search?page=1&search=${query}&filter=${filterType}`);
         }, 500);
         return () => clearTimeout(timeoutId);
     }, [query]);
@@ -33,6 +26,8 @@ const MovieSearchBar = ({page}: searchMovieFormData) => {
             placeholder="Search for a movie..."
             query={query}
             setQuery={setQuery}
+            setFilterType={setFilterType}
+            filter={filterType}
             />
         </div>
     )
