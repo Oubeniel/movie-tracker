@@ -7,11 +7,6 @@ export async function getAllMovies(page: number = 1) {
     return response.data;
 }
 
-export async function getAllMoviesWithSearch(searchString?: string, page?: number) {
-    const response = await api.get<MoviePage>(`/movie?page=${page}&search=${searchString}`);
-    return response.data;
-}
-
 /**
  * Retrieves a list of movies with advanced search options.
  *
@@ -25,20 +20,7 @@ export async function getAllMoviesAdvancedSearch(searchString?: string, page?: n
     return response.data;
 }
 
-export async function getMovies(title: string) {
-    const response = await api.get<Movie>("/movie/titles", { params: { title } });
-    return response.data;
-}
-
-export async function postTestMovieTitle() {
-    const title = "Test Movie Title";
-    const response = await api.post<Movie>("/movie", { title });
-    return response.data;
-}
-
-export async function searchMovie(title: string) {
-    const response = await api.get<[]>("/movie/search", { params: { title } });
-    console.log(response.data);
-    
+export async function getSingularMovie(_id: string) {
+    const response = await api.get<Movie>(`/movie/${_id}`);
     return response.data;
 }

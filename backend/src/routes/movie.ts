@@ -7,7 +7,7 @@ router.get("/movie/search", MovieController.getAllMovies);
 
 router.get("/movie", MovieController.getAllMovies);
 
-
+router.get("/movie/:id", MovieController.getFullMovieDetails);
 
 
 export default router;

@@ -1,5 +1,6 @@
 import { RequestHandler } from "express";
 import MovieModel from "../models/movie";
+import createHttpError from "http-errors";
 
 interface MovieItem {
     page: string,
@@ -7,10 +8,10 @@ interface MovieItem {
     filter: string
 }
 
-export const getAllMovies: RequestHandler<unknown, unknown, unknown, MovieItem> = async (req, res) => {
+export const getAllMovies: RequestHandler<unknown, unknown, unknown, MovieItem> = async (req, res, next) => {
     const page = parseInt(req.query.page ?? "1");
     const pageSize = 12;
-    const regex = new RegExp(req.query.search as string, 'i');
+    const regex = new RegExp(req.query.search as string, 'i')
     let filter = {}
     switch (req.query.filter) {
         case "genres":
@@ -42,35 +43,22 @@ export const getAllMovies: RequestHandler<unknown, unknown, unknown, MovieItem> 
         const totalPages = Math.ceil(count / pageSize);
         res.status(200).json({ movies, page, totalPages });
     } catch (error) {
-        console.error(error);
+        next(error);
     }
 }
 
-export const getAllMovieDetails: RequestHandler = async (req, res) => {
+export const getFullMovieDetails: RequestHandler = async (req, res, next) => {
     try {
-        const movie = await MovieModel.findOne({ _id: req.body._id }).exec();
-        res.status(200).json(movie);
-    } catch (error) {
-        console.error(error);
-    }
-}
+        const movieItem = await MovieModel
+            .findById({ _id: req.params.id })
+            .exec();
 
-export const getMovieByTitle: RequestHandler = async (req, res) => {
-    try {
-        const { title } = req.query;
-        const regex = new RegExp(title as string, 'i');
-        const results = await MovieModel.find({ title: regex }).select('title year plot poster imdb tomatoes').exec();
-        res.status(200).json(results);
-    } catch (error) {
-        console.error(error);
-    }
-}
+        if (!movieItem) {
+            throw createHttpError(404, "No movie found for ID.");
+        }
 
-export const addMovie: RequestHandler = async (req, res) => {
-    try {
-        const movie = await MovieModel.create(req.body);
-        res.status(200).json(movie);
+        res.status(200).json(movieItem);
     } catch (error) {
-        console.error(error);
+        next(error);
     }
 }
