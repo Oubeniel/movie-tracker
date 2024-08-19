@@ -2,7 +2,7 @@ import { Dropdown, DropdownButton, FormControl, InputGroup } from "react-bootstr
 
 interface SearchInputFieldProps {
     placeholder: string,
-    query: string,
+    query?: string,
     filter: string,
     setQuery: (value: string) => void
     setFilterType: (value: string) => void

@@ -5,17 +5,18 @@ import createHttpError from "http-errors";
 interface MovieItem {
     page: string,
     search?: string,
-    filter: string
+    filter: string,
+    pageSize: string
 }
 
 export const getAllMovies: RequestHandler<unknown, unknown, unknown, MovieItem> = async (req, res, next) => {
     const page = parseInt(req.query.page ?? "1");
-    const pageSize = 12;
+    const pageSize = parseInt(req.query.pageSize ?? "12");
     const regex = new RegExp(req.query.search as string, 'i')
     let filter = {}
     switch (req.query.filter) {
         case "genres":
-            filter = req.query.search ? { genres: regex } : {}; 
+            filter = req.query.search ? { genres: regex } : {};
             break;
         case "cast":
             filter = req.query.search ? { cast: regex } : {};
@@ -27,11 +28,11 @@ export const getAllMovies: RequestHandler<unknown, unknown, unknown, MovieItem> 
             filter = req.query.search ? { title: regex } : {};
             break;
     }
-      
+
     try {
         const getMoviesQuery = MovieModel
             .find(filter)
-            .sort({title : 1}) // 1 to sort by title in ascending order (i.e., A-Z) -1 sort the other way around
+            .sort({ title: 1 }) // 1 to sort by title in ascending order (i.e., A-Z) -1 sort the other way around
             .select('title year plot poster imdb tomatoes genres cast directors awards')
             .skip((page - 1) * pageSize)
             .limit(pageSize)

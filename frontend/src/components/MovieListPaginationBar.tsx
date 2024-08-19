@@ -8,9 +8,10 @@ interface MoviePaginationBarProps {
     totalPages: number,
     search?: string
     filter?: string
+    pageSize?: number
 }
 
-export default function MovieListPaginationBar({ currentPage, totalPages, search, filter }: MoviePaginationBarProps) {
+export default function MovieListPaginationBar({ currentPage, totalPages, search, filter, pageSize }: MoviePaginationBarProps) {
     const router = useRouter();
 
     return (
@@ -19,7 +20,7 @@ export default function MovieListPaginationBar({ currentPage, totalPages, search
             pageCount={totalPages}
             onPageItemClicked={(page) => {
                 let url = "";
-                if (search) { url = `/movie/search?page=${page}&search=${search}&filter=${filter}` }
+                if (search) { url = `/movie/search?page=${page}&search=${search}&filter=${filter}&pageSize=${pageSize}` }
                 else { url = "/movie?page=" + page };
                 router.push(url);
             }}
