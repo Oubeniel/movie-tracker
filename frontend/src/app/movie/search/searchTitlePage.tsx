@@ -11,7 +11,7 @@ interface MovieInfoSectionProps {
 }
 
 const MovieInfoSection = async ({ page, search, filter, pageSize }: MovieInfoSectionProps) => {
-    const { movies, page: currentPage, totalPages } = await MovieApi.getAllMoviesAdvancedSearch({search, page, pageSize, filter});
+    const { movies, page: currentPage, totalPages } = await MovieApi.getAllMoviesAdvancedSearch({ search, page, pageSize, filter });
     return (
         <div>
             <MovieSearchBar />

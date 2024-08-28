@@ -32,3 +32,11 @@ export interface MoviePage {
     page: number,
     totalPages: number
 }
+
+export interface MovieChart {
+    year: number,
+    imdb: {
+        rating: number
+    },
+    title: string
+}

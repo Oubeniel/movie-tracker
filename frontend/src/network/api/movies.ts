@@ -1,4 +1,4 @@
-import { Movie, MoviePage } from "@/models/movie";
+import { Movie, MovieChart, MoviePage } from "@/models/movie";
 import api from "@/network/axiosInstance";
 
 
@@ -44,7 +44,6 @@ export async function getAllMoviesAdvancedSearch(params: { [key: string]: string
     if (queryParameters.length > 0) {
         url += `?${queryParameters.join("&")}`;
     }
-
     const response = await api.get<MoviePage>(url);
     return response.data;
 }
@@ -52,5 +51,10 @@ export async function getAllMoviesAdvancedSearch(params: { [key: string]: string
 
 export async function getSingularMovie(_id: string) {
     const response = await api.get<Movie>(`/movie/${_id}`);
+    return response.data;
+}
+
+export async function getMovieDataForCharts(director: string, _id: string) {
+    const response = await api.post<MovieChart[]>(`/movie/${_id}`, { director });
     return response.data;
 }

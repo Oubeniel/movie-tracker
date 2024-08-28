@@ -63,3 +63,20 @@ export const getFullMovieDetails: RequestHandler = async (req, res, next) => {
         next(error);
     }
 }
+
+interface MovieDataForCharts {
+    director: string
+}
+
+export const getMovieDataForCharts: RequestHandler<unknown, unknown, MovieDataForCharts, unknown> = async (req, res, next) => {
+    const regex = new RegExp(req.body.director, 'i');
+    try {
+        const movieData = await MovieModel
+        .find({ directors: regex })
+        .select('year imdb title')
+        .exec();
+        res.status(200).json(movieData);
+    } catch (error) {
+        next(error);
+    }
+}

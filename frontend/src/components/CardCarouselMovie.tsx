@@ -22,6 +22,8 @@ function MovieItemChunker(movies: Movie[], currentMovie: string) {
 }
 
 const CardCarouselMovie = ({ moviesItem, movieID }: CardCarouselMovieProps) => {
+    console.log(moviesItem);
+    
 
     const movieChunks = MovieItemChunker(moviesItem.movies, movieID);
     const [hidden, setHidden] = useState(0);

@@ -10,14 +10,13 @@ interface MoviePageProps {
 const MovieInfoSection = async ({params}: MoviePageProps) => {
     const movieDetails = await MovieApi.getSingularMovie(params.id);
     const movieListBasedOnDirector = await MovieApi.getAllMoviesAdvancedSearch({
-        searchString: movieDetails.directors[0],
-        page: 1,
-        pageSize: 12,
+        search: movieDetails.directors[0],
         filter: 'directors'
     });
+    const movieChartData = await MovieApi.getMovieDataForCharts(movieDetails.directors[0], params.id);
     return (
         <div>
-            <SingularMoviePage movie={movieDetails} directorMovieList={movieListBasedOnDirector}/>
+            <SingularMoviePage movie={movieDetails} directorMovieList={movieListBasedOnDirector} movieChartData={movieChartData}/>
         </div>
     )
 }
