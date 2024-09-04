@@ -3,7 +3,7 @@ import * as UsersController from '../controllers/users'
 import passport from "passport";
 import requiresAuth from "../middlewares/requiresAuth";
 import { validateRequestSchema } from "../middlewares/validateRequestSchema";
-import { signUpSchema } from "../validation/users";
+import { signUpSchema, updateUserSchema } from "../validation/users";
 //import { profilePicUpload } from "../middlewares/image-upload";
 
 const router = express.Router();
@@ -18,6 +18,6 @@ router.post("/login", passport.authenticate('local'), (req, res) => res.status(2
 
 router.post("/logout", UsersController.logOut);
 
-//router.patch("/me", requiresAuth, profilePicUpload.single("profilePicture"), validateRequestSchema(updateUserSchema), UsersController.updateUser);
+router.patch("/me", requiresAuth, validateRequestSchema(updateUserSchema), UsersController.updateUser);
 
 export default router;

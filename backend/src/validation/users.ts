@@ -21,13 +21,14 @@ export const signUpSchema = yup.object({
 });
 export type SignUpBody = yup.InferType<typeof signUpSchema>["body"];
 
-/* export const updateUserSchema = yup.object({
+export const updateUserSchema = yup.object({
     body: yup.object({
         username: usernameSchema,
         displayName: yup.string().max(20),
         about: yup.string().max(160),
+        favoriteMovies: yup.array().of(yup.string()),
         }),
-        file: imageFileSchema,
+        //file: imageFileSchema,
 });
 
-export type UpdateUserBody = yup.InferType<typeof updateUserSchema>["body"]; */
+export type UpdateUserBody = yup.InferType<typeof updateUserSchema>["body"];

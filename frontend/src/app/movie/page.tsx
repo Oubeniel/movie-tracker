@@ -6,35 +6,35 @@ import MovieListPaginationBar from "@/components/MovieListPaginationBar";
 import MovieSearchBar from "@/components/MovieSearchBar";
 
 interface MoviePageProps {
-    searchParams: { 
+    searchParams: {
         page?: string,
         search?: string
-     }
-  }
+    }
+}
 
-const MainMoviePage = async ({searchParams}: MoviePageProps) => {
+const MainMoviePage = async ({ searchParams }: MoviePageProps) => {
     const page = parseInt(searchParams.page?.toString() ?? "1");
-    
+
     if (page < 1) {
         searchParams.page = "1";
         redirect("/movie?" + stringify(searchParams));
-      }
-    
-      const { movies, page: currentPage, totalPages } = await MovieApi.getAllMovies(page);
-    
-      if (totalPages > 0 && page > totalPages) {
+    }
+
+    const { movies, page: currentPage, totalPages } = await MovieApi.getAllMovies(page);
+
+    if (totalPages > 0 && page > totalPages) {
         searchParams.page = totalPages.toString();
         redirect("/movie?" + stringify(searchParams));
-      }
+    }
     return (
         <div>
-            <MovieSearchBar/>
-            {movies.length > 0 && <MovieCardGrid movies={movies}/>}
-            {movies.length > 0 && 
-            <MovieListPaginationBar 
-                currentPage={currentPage}
-                totalPages={totalPages}
-            />
+            <MovieSearchBar />
+            {movies.length > 0 && <MovieCardGrid movies={movies} />}
+            {movies.length > 0 &&
+                <MovieListPaginationBar
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                />
             }
         </div>
     )

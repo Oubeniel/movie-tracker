@@ -41,17 +41,28 @@ interface UpdateUserValues {
     username?: string,
     displayName?: string,
     about?: string,
-    profilePicture?: File,
+    favoriteMovies?: string[],
 }
 
 export async function updateUser(input: UpdateUserValues) {
+    console.log('Input:', input);  // Log input to check its content
+
     const formData = new FormData();
     Object.entries(input).forEach(([key, value]) => {
-        if (value !== undefined) {//we strictly check if value is not undefined
-            formData.append(key, value);
+        if (value !== undefined) { // we strictly check if value is not undefined
+            if (Array.isArray(value)) {
+                formData.append(key, JSON.stringify(value));
+            } else {
+                formData.append(key, value as string);
+            }
         }
-    })
+    });
 
-    const response = await api.patch<User>("/users/me", formData);
+    // Log each entry in the FormData
+    for (let pair of formData.entries()) {
+        console.log(pair[0]+ ', ' + pair[1]);
+    }
+
+    const response = await api.patch<User>("/users/me", input);
     return response.data;
 }

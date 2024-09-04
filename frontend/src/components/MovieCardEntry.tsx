@@ -10,15 +10,21 @@ import viewer_tomato from "@/images/tomato-viewer-logo.png"
 import { useState } from "react";
 import MovieInfoToolTip from "./MovieInfoToolTip";
 import styles from "@/styles/MovieCardEntry.module.css"
+import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
+import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
+import { User } from "@/models/user";
+import * as UsersApi from "@/network/api/users";
 
 interface MovieCardEntryProps {
     movie: Movie,
-    className?: string
+    className?: string,
+    user: User
 }
 
-const MovieCardEntry = ({ movie, className }: MovieCardEntryProps) => {
+const MovieCardEntry = ({ movie, className, user }: MovieCardEntryProps) => {
     const [imgSrc, setImgSrc] = useState(movie.poster);
     const [isExpanded, setIsExpanded] = useState(false);
+    const [favoriteMovies, setFavoriteMovies] = useState(user.favoriteMovies || []);
 
     const handleImageError = () => {
         setImgSrc(placeholder.src);
@@ -28,11 +34,26 @@ const MovieCardEntry = ({ movie, className }: MovieCardEntryProps) => {
         setIsExpanded(!isExpanded);
     };
 
+    const toggleFavorite = () => {
+        let tempFavorites = [...favoriteMovies]; // use local state instead of user.favoriteMovies
+        if (user.favoriteMovies) {
+            tempFavorites = [...user.favoriteMovies]; //instead of simply assigning tempFavorites = user.favoriteMovies, we use the spread operator to create a new array with the same elements as user.favoriteMovies
+
+            if (tempFavorites?.includes(movie._id)) {
+                tempFavorites = tempFavorites.filter((id) => id !== movie._id);
+            } else if (tempFavorites) {
+                tempFavorites.push(movie._id);
+            }
+            setFavoriteMovies(tempFavorites);
+            UsersApi.updateUser({favoriteMovies: tempFavorites});
+        }
+    }
     return (
         <div>
             <Card className={className}>
                 <article>
-                    <Link href={`/movie/${movie._id}`}>
+                    <div className={styles.iconContainer}>
+                        {favoriteMovies.includes(movie._id) ? <BookmarkAddedIcon className={styles.favoriteIcon} sx={{ color: 'yellow', height: '50px', width: '50px' }} onClick={toggleFavorite} /> : <BookmarkAddIcon className={styles.notFavoriteIcon} onClick={toggleFavorite} />}
                         <Image
                             src={imgSrc}
                             alt="Movie Poster"
@@ -41,10 +62,10 @@ const MovieCardEntry = ({ movie, className }: MovieCardEntryProps) => {
                             className='card-img-top object-fit-cover'
                             onError={handleImageError}
                         />
-                    </Link>
+                    </div>
                     <Card.Body>
                         <Card.Title
-                        className={isExpanded ? '' : styles.expandableTitle}
+                            className={isExpanded ? '' : styles.expandableTitle}
                         >
                             <Link href={`/movie/${movie._id}`}><MovieInfoToolTip movie={movie} /></Link>
                         </Card.Title>
@@ -70,7 +91,7 @@ const MovieCardEntry = ({ movie, className }: MovieCardEntryProps) => {
                             /> {!movie.tomatoes?.viewer || movie.tomatoes.viewer.rating === 0 ? "N/A" : movie.tomatoes.viewer.rating}</Card.Text>
                         </div>
                         <Card.Text
-                        className={isExpanded ? '' : styles.expandableText}
+                            className={isExpanded ? '' : styles.expandableText}
                         >{movie.plot ?? <span><strong>No description</strong></span>}</Card.Text>
                         <Card.Footer>
                             <button onClick={toggleExpand} className="btn btn-link">

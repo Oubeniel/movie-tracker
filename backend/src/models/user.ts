@@ -9,6 +9,7 @@ const userSchema = new Schema({
     password: { type: String, select: false },
     googleId: { type: String, unique: true, sparse: true, select: false },
     githubId: { type: String, unique: true, sparse: true, select: false },
+    favoriteMovies: [{ type: Schema.Types.ObjectId, ref: "Movie" }]
 }, { timestamps: true });
 
 userSchema.pre("validate", function (next) { //arrow function here would not work, because of parameter *this*
