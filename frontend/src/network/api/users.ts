@@ -45,8 +45,6 @@ interface UpdateUserValues {
 }
 
 export async function updateUser(input: UpdateUserValues) {
-    console.log('Input:', input);  // Log input to check its content
-
     const formData = new FormData();
     Object.entries(input).forEach(([key, value]) => {
         if (value !== undefined) { // we strictly check if value is not undefined
@@ -57,12 +55,6 @@ export async function updateUser(input: UpdateUserValues) {
             }
         }
     });
-
-    // Log each entry in the FormData
-    for (let pair of formData.entries()) {
-        console.log(pair[0]+ ', ' + pair[1]);
-    }
-
     const response = await api.patch<User>("/users/me", input);
     return response.data;
 }

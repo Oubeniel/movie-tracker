@@ -1,23 +1,27 @@
 "use client"
 import Link from "next/link";
-import { usePathname } from "next/navigation"
+import { usePathname } from "next/navigation";
 import { Button, Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
-import Image from "next/image"
+import Image from "next/image";
 import logo from "@/images/logo.png";
-import styles from "@/styles/NavigationBar.module.css"
+import styles from "@/styles/NavigationBar.module.css";
 import useAuthenticatedUser from "@/hooks/useAuthenticatedUser";
 import { User } from "@/models/user";
 import { useState } from "react";
 import LoginModal from "./auth/LoginModal";
 import SignUpModal from "./auth/SignUpModal";
-import * as UsersApi from "@/network/api/users"
-import placeholder from "@/images/no-image-placeholder.jpg"
-
+import * as UsersApi from "@/network/api/users";
+import placeholder from "@/images/no-image-placeholder.jpg";
+import { favoriteMoviesActions } from "@/store/slices/favoriteMoviesSlice";
+import { useAppDispatch } from "@/store/hooks";
 
 const NavigationBar = () => {
     const pathname = usePathname();
-
+    const dispatch = useAppDispatch();
     const { user } = useAuthenticatedUser();
+    if(user) dispatch(favoriteMoviesActions.setFavoriteMovies(user.favoriteMovies));
+    console.log(user);
+    
 
     return (
         <div>
@@ -69,7 +73,7 @@ const LoggedInView = ({ user }: LoggedInViewProps) => {
     return (
         <Nav className='ms-auto'>
             <Navbar.Text className="ms-md-3">
-                Hello, {user.displayName ?? "User"}!
+                Hello, {user.username ?? "User"}!
             </Navbar.Text>
             <NavDropdown
                 className={styles.accountDropdown}

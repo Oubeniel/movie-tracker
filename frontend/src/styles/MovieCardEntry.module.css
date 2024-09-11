@@ -19,8 +19,13 @@
 }
 
 .notFavoriteIcon {
-    opacity: 0; /* Hide by default */
-    transition: opacity 0.3s; /* Smooth transition for opacity change */
+    opacity: 0;
+    /* Hide by default */
+    transition: opacity 0.3s;
+    /* Smooth transition for opacity change */
+    height: 50px;
+    width: 50px;
+    right: 0;
     position: absolute;
 }
 
@@ -32,8 +37,10 @@
     bottom: 0;
     left: 0;
     background-color: #393E46;
-    opacity: 0; /* Hide background by default */
-    transition: opacity 0.3s; /* Smooth transition for opacity change */
+    opacity: 0;
+    /* Hide background by default */
+    transition: opacity 0.3s;
+    /* Smooth transition for opacity change */
 }
 
 .iconContainer:hover .notFavoriteIcon,
@@ -41,17 +48,23 @@
     height: 50px;
     width: 50px;
     right: 0;
-    cursor: pointer; /* Change cursor to pointer when hovering over the icon */
-    opacity: 1; /* Show icon when the container or the icon is hovered */
+    cursor: pointer;
+    /* Change cursor to pointer when hovering over the icon */
+    opacity: 1;
+    /* Show icon when the container or the icon is hovered */
 }
 
 .iconContainer:hover::before,
 .notFavoriteIcon:hover::before {
-    opacity: 0.5; /* Show background with 0.5 opacity on hover */
+    opacity: 0.5;
+    /* Show background with 0.5 opacity on hover */
 }
 
 .favoriteIcon {
     position: absolute;
     right: 0;
-    cursor: pointer; /* Change cursor to pointer when hovering over the icon */
+    height: 50px;
+    width: 50px;
+    cursor: pointer;
+    /* Change cursor to pointer when hovering over the icon */
 }

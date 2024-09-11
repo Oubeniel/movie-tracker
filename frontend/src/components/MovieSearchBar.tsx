@@ -41,7 +41,6 @@ const MovieSearchBar = () => {
             <div className="float-end">
                 <Dropdown>
                     <Dropdown.Toggle variant="secondary">Page size</Dropdown.Toggle>
-
                     <Dropdown.Menu>
                         <Dropdown.Item onClick={() => setPageSize(12)}>12</Dropdown.Item>
                         <Dropdown.Item onClick={() => setPageSize(24)}>24</Dropdown.Item>

@@ -22,25 +22,19 @@ function MovieItemChunker(movies: Movie[], currentMovie: string) {
 }
 
 const CardCarouselMovie = ({ moviesItem, movieID }: CardCarouselMovieProps) => {
-    console.log(moviesItem);
-    
-
     const movieChunks = MovieItemChunker(moviesItem.movies, movieID);
     const [hidden, setHidden] = useState(0);
     return (
         <>
             {moviesItem.movies.length > 1 ?
                 movieChunks.map((chunk, index) => (
-                    <>
-                        <Row className={`d-flex justify-content-center ${index !== hidden ? "d-none" : ""}`} key={index}>
-                            {chunk.map((movie) => (
-                                <Col xs={4}>
-                                    <MovieCardEntry movie={movie} />
-                                </Col>
-                            ))}
-                        </Row>
-
-                    </>
+                    <Row className={`d-flex justify-content-center ${index !== hidden ? "d-none" : ""}`} key={index}>
+                        {chunk.map((movie) => (
+                            <Col xs={4}>
+                                <MovieCardEntry movie={movie} />
+                            </Col>
+                        ))}
+                    </Row>
                 ))
                 :
                 <span className="d-flex justify-content-center">No movies found</span>

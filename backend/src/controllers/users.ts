@@ -12,7 +12,7 @@ export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
     try {
         assertIsDefined(authenticatedUser);
         const user = await UserModel.findById(authenticatedUser._id)
-            .select("favoriteMovies")
+            .select("favoriteMovies username")
             .exec();
         res.status(200).json(user);
     } catch (error) {
@@ -78,8 +78,7 @@ export const updateUser: RequestHandler<unknown, unknown, UpdateUserBody, unknow
     const { username, displayName, about, favoriteMovies } = req.body;
     //const profilePicture = req.file;
     const authenticatedUser = req.user;
-
-
+    
     try {
         assertIsDefined(authenticatedUser);
         if (username) {

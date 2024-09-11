@@ -1,36 +1,21 @@
 import { Movie, MovieChart, MoviePage } from "@/models/movie";
 import api from "@/network/axiosInstance";
 
-
 export async function getAllMovies(page: number = 1) {
     const response = await api.get<MoviePage>("/movie?page=" + page);
     return response.data;
 }
 
-/**
- * Retrieves a list of movies with advanced search options.
- *
- * @param {string} [searchString] - The search string to filter the movies.
- * @param {number} [page] - The page number of the results.
- * @param {string} [filter] - The type of filter to apply.
- * @return {Promise<MoviePage>} - A promise that resolves to the movie page with the search results.
- */
-/* export async function getAllMoviesAdvancedSearch(searchString?: string, page?: number, pageSize?: number, filter?: string) {
-    let url = "/movie/search";
-    const params: string[] = []
-
-    if (searchString) params.push(`search=${searchString}`);
-    if (page) params.push(`page=${page}`);
-    if (pageSize) params.push(`pageSize=${pageSize}`);
-    if (filter) params.push(`filter=${filter}`);
-
-    if (params.length > 0) url += `?${params.join("&")}`;
-
-    const response = await api.get<MoviePage>(url);
-    //const response = await api.get<MoviePage>(`/movie/search?page=${page}&pageSize=${pageSize}&search=${searchString}&filter=${filter}`);
-    return response.data;
-} */
-
+    /**
+     * Retrieves a list of movies with advanced search options.
+     *
+     * @param {object} params - The search parameters.
+     * @param {number} [params.page] - The page number of the results.
+     * @param {string} [params.search] - The search string to filter the movies.
+     * @param {string} [params.filter] - The type of filter to apply.
+     * @param {number} [params.pageSize] - The number of movies per page.
+     * @return {Promise<MoviePage>} - A promise that resolves to the movie page with the search results.
+     */
 export async function getAllMoviesAdvancedSearch(params: { [key: string]: string | number | undefined }) {
     let url = "/movie/search";
     const queryParameters: string[] = [];

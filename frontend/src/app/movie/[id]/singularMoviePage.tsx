@@ -8,6 +8,8 @@ import { Col, Container, Row } from "react-bootstrap"
 import placeholder from "@/images/no-image-placeholder.jpg"
 import { LineChart } from '@mui/x-charts/LineChart';
 import * as React from 'react';
+import styles from "@/styles/CustomTooltip.module.css"
+import imdb from "@/images/imdb-logo.png"
 interface MoviePageProps {
     movie: Movie,
     directorMovieList: MoviePage,
@@ -28,13 +30,19 @@ const SingularMoviePage = ({ movie, directorMovieList, movieChartData }: MoviePa
         }))
         .sort((a, b) => a.year - b.year);
 
-        const AxisContent = (props) => {
+    const AxisContent = (props) => {
         return (
-            <div
-                style={{ background: "white", width: "100%", height: "100%", color: "black", marginLeft: "20px" }}
-            >
+            <div className={styles.tooltip}>
                 {/* @ts-ignore */}
-                <span>{props.series[0].data[props.axisData.x.index]}</span>
+                <Image
+                    src={imdb}
+                    alt="imdb logo"
+                    width={20}
+                    height={20}
+                />
+                <span className={styles.tooltipTitle}>
+                    {props.series[0].data[props.axisData.x.index]}
+                </span>
                 <br />
                 {/* @ts-ignore */}
                 <span>{movieChartDataMerged[props.axisData.x.index].title}</span>
@@ -73,7 +81,7 @@ const SingularMoviePage = ({ movie, directorMovieList, movieChartData }: MoviePa
             <CardCarouselMovie moviesItem={directorMovieList} movieID={movie._id} />
             {movieChartDataMerged && movieChartDataMerged.length > 1 &&
                 <>
-                    <h5>Ratings over time</h5>
+                    <h5>Ratings over time: </h5>
                     <LineChart
                         sx={{
                             '& .MuiChartsAxis-root .MuiChartsAxis-tickLabel': {
