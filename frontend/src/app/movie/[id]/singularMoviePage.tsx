@@ -8,8 +8,9 @@ import { Col, Container, Row } from "react-bootstrap"
 import placeholder from "@/images/no-image-placeholder.jpg"
 import { LineChart } from '@mui/x-charts/LineChart';
 import * as React from 'react';
-import styles from "@/styles/CustomTooltip.module.css"
+import tooltipStyles from "@/styles/CustomTooltip.module.css"
 import imdb from "@/images/imdb-logo.png"
+import movieStyles from "@/styles/singularMoviePage.module.css"
 interface MoviePageProps {
     movie: Movie,
     directorMovieList: MoviePage,
@@ -32,7 +33,7 @@ const SingularMoviePage = ({ movie, directorMovieList, movieChartData }: MoviePa
 
     const AxisContent = (props) => {
         return (
-            <div className={styles.tooltip}>
+            <div className={tooltipStyles.tooltip}>
                 {/* @ts-ignore */}
                 <Image
                     src={imdb}
@@ -40,7 +41,7 @@ const SingularMoviePage = ({ movie, directorMovieList, movieChartData }: MoviePa
                     width={20}
                     height={20}
                 />
-                <span className={styles.tooltipTitle}>
+                <span className={tooltipStyles.tooltipTitle}>
                     {props.series[0].data[props.axisData.x.index]}
                 </span>
                 <br />
@@ -53,7 +54,7 @@ const SingularMoviePage = ({ movie, directorMovieList, movieChartData }: MoviePa
     return (
         <>
             <Container className="mb-4">
-                <Row>
+                <Row xs={1} sm={1} md={1} lg={2}>
                     <Col xs={4}>
                         <Image
                             src={imgSrc}
@@ -61,6 +62,7 @@ const SingularMoviePage = ({ movie, directorMovieList, movieChartData }: MoviePa
                             width={375}
                             height={500}
                             onError={handleImageError}
+                            className={movieStyles.singularMovieImage}
                         />
                     </Col>
                     <Col>
