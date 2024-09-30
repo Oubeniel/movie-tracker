@@ -28,9 +28,9 @@ const CardCarouselMovie = ({ moviesItem, movieID }: CardCarouselMovieProps) => {
         <>
             {moviesItem.movies.length > 1 ?
                 movieChunks.map((chunk, index) => (
-                    <Row className={`d-flex justify-content-center ${index !== hidden ? "d-none" : ""}`} key={index}>
+                    <Row xs={1} sm={2} md={2} lg={4} className={`d-flex justify-content-center ${index !== hidden ? "d-none" : ""}`} key={index}>
                         {chunk.map((movie) => (
-                            <Col xs={4}>
+                            <Col key={movie._id}>
                                 <MovieCardEntry movie={movie} />
                             </Col>
                         ))}
